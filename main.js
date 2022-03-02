@@ -44,8 +44,10 @@ const web_server = http.createServer((req, resp) => {
                     
                     server.onmessage = (message) => {
                         let parsed_msg = JSON.parse(message.data)
-                        if (parsed_msg.message)
-                            messages.insertAdjacentHTML('afterbegin', '<p>' + safe_tags_replace(parsed_msg.message) + '</p>')
+                        if (parsed_msg.message) {
+                            messages.insertAdjacentHTML('beforeend', '<p>' + safe_tags_replace(parsed_msg.message) + '</p>')
+                            messages.scrollTo(0,document.body.scrollHeight);
+                        }
                     }
 
                     server.onopen = () => {
