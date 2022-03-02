@@ -30,7 +30,7 @@ const web_server = http.createServer((req, resp) => {
                         }
                       });
 
-                    var server = new WebSocket('ws://' + location.host + '/wss')
+                    var server = new WebSocket('wss://' + location.host + '/wss')
 
                     var tagsToReplace = {
                         '&': '&amp;',
