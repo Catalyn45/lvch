@@ -96,6 +96,7 @@ wss.on('connection', (conn) => {
     console.log("got connection")
 })
 
-web_server.listen(80, "0.0.0.0", () => {
+const port = process.env.PORT || 3000;
+web_server.listen(port, "0.0.0.0", () => {
     console.log("server started")
 })
