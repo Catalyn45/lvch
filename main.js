@@ -46,7 +46,7 @@ const web_server = http.createServer((req, resp) => {
                         let parsed_msg = JSON.parse(message.data)
                         if (parsed_msg.message) {
                             messages.insertAdjacentHTML('beforeend', '<p>' + safe_tags_replace(parsed_msg.message) + '</p>')
-                            messages.scrollTo(0,document.body.scrollHeight);
+                            messages.scrollTo(0,messages.scrollHeight);
                         }
                     }
 
