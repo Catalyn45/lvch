@@ -6,11 +6,11 @@ const web_server = http.createServer((req, resp) => {
     if(req.url == "/") {
         let html_page = `
             <html>
-            <body style="height: 100vh;">
+            <body style="height: 100vh; overflow: hidden;">
                 <p>Messages:</p>
-                <div id="messages" style="max-height: 80vh; overflow-y: scroll; overflow-x: hidden">
+                <div id="messages" style="height: 60vh; overflow-y: scroll; overflow-x: hidden">
                 </div>
-                <div style="display: inline-block; position: fixed; bottom: 20px;">
+                <div>
                     <input type="text" id="send_text">
                     <button onclick="send()" id="send_btn">send</button>
                 </div>
