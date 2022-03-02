@@ -1,8 +1,8 @@
-const http = require('http')
+const https = require('https')
 const ws = require('ws')
 const random = require('random-name')
 
-const web_server = http.createServer((req, resp) => {
+const web_server = https.createServer((req, resp) => {
     if(req.url == "/") {
         let html_page = `
             <html>
@@ -26,7 +26,7 @@ const web_server = http.createServer((req, resp) => {
                         }
                       });
 
-                    var server = new WebSocket('ws://' + location.host + '/wss')
+                    var server = new WebSocket('wss://' + location.host + '/wss')
                     
                     var tagsToReplace = {
                         '&': '&amp;',
