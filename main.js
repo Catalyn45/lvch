@@ -1,8 +1,8 @@
-const https = require('https')
+const http = require('http')
 const ws = require('ws')
 const random = require('random-name')
 
-const web_server = https.createServer((req, resp) => {
+const web_server = http.createServer((req, resp) => {
     if(req.url == "/") {
         let html_page = `
             <html>
