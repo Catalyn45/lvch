@@ -85,13 +85,13 @@ wss.on('connection', (conn) => {
             }
             return
         }
-        
+
         console.log("message: %s", message)
         wss.clients.forEach((el) => {
             if(el == conn) {
                 return el.send(JSON.stringify({message: `Me :  ${parsed_msg.message}`}))
             }
-            el.send(JSON.stringify({message: `${el.name} :  ${parsed_msg.message}`}))
+            el.send(JSON.stringify({message: `${conn.name} :  ${parsed_msg.message}`}))
         })
     })
 
