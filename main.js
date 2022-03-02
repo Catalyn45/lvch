@@ -27,21 +27,20 @@ const web_server = http.createServer((req, resp) => {
                       });
 
                     var server = new WebSocket('wss://' + location.host + '/wss')
-                    
+
                     var tagsToReplace = {
                         '&': '&amp;',
                         '<': '&lt;',
                         '>': '&gt;'
                     };
-                    
                     function replaceTag(tag) {
                         return tagsToReplace[tag] || tag;
                     }
-                    
+
                     function safe_tags_replace(str) {
                         return str.replace(/[&<>]/g, replaceTag);
                     }
-                    
+
                     server.onmessage = (message) => {
                         let parsed_msg = JSON.parse(message.data)
                         if (parsed_msg.message) {
@@ -53,7 +52,7 @@ const web_server = http.createServer((req, resp) => {
                     server.onopen = () => {
                         server.send(JSON.stringify({user: 'admin', pass: 'admin'}))
                     }
-                    
+
                     function send() {
                         server.send(JSON.stringify({message: text.value}))
                         text.value = ''
@@ -66,6 +65,7 @@ const web_server = http.createServer((req, resp) => {
         resp.end(html_page)
     }
 })
+
 const wss = new ws.Server({server: web_server, path: "/wss"})
 wss.on('connection', (conn) => {
     conn.authenticated = false
