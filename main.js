@@ -2,11 +2,14 @@ const http = require('http')
 const ws = require('ws')
 const random = require('random-name')
 
+var connections = 0
+
 const web_server = http.createServer((req, resp) => {
     if(req.url == "/") {
         let html_page = `
             <html>
             <body style="height: 100vh; overflow: hidden;">
+                <div id="connections"><p>connections: 0</p></div>
                 <p>Messages:</p>
                 <div id="messages" style="height: 60vh; overflow-y: scroll; overflow-x: hidden">
                 </div>
@@ -18,6 +21,7 @@ const web_server = http.createServer((req, resp) => {
                 <script>
                     var text = document.getElementById('send_text')
                     var messages = document.getElementById('messages')
+                    var connections_container = document.getElementById('connections')
 
                     text.addEventListener("keyup", function(event) {
                         if (event.keyCode === 13) {
@@ -26,7 +30,7 @@ const web_server = http.createServer((req, resp) => {
                         }
                       });
 
-                    var server = new WebSocket('wss://' + location.host + '/wss')
+                    var server = new WebSocket('ws://' + location.host + '/wss')
 
                     var tagsToReplace = {
                         '&': '&amp;',
@@ -46,6 +50,9 @@ const web_server = http.createServer((req, resp) => {
                         if (parsed_msg.message) {
                             messages.insertAdjacentHTML('beforeend', '<p>' + safe_tags_replace(parsed_msg.message) + '</p>')
                             messages.scrollTo(0,messages.scrollHeight);
+                        }
+                        if (parsed_msg.connections) {
+                            connections_container.innerHTML = '<p>connections: ' + parsed_msg.connections + '</p>'
                         }
                     }
 
@@ -95,7 +102,18 @@ wss.on('connection', (conn) => {
         })
     })
 
+    conn.on('close', () => {
+        connections--
+        wss.clients.forEach((el) => {
+            el.send(JSON.stringify({connections}))
+        })
+    })
+
     console.log("got connection")
+    connections++
+    wss.clients.forEach((el) => {
+        el.send(JSON.stringify({connections}))
+    })
 })
 
 const port = process.env.PORT || 3000;
